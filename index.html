@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5best2buy — Top Reviews. Smart Decisions.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── VARIABLES ── */
+    :root {
+      --navy:      #1a2e4a;
+      --navy-deep: #0f1e30;
+      --blue:      #2a7ec8;
+      --blue-mid:  #1a6ab8;
+      --blue-light:#4aa3e8;
+      --gold:      #e8b84b;
+      --gold-light:#f5d080;
+      --white:     #f4f8fc;
+      --grey:      #6b8099;
+      --line:      rgba(42,126,200,0.18);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; min-height: 100vh;
+      background: var(--navy-deep);
+      color: var(--white);
+      font-family: 'Lora', Georgia, serif;
+      overflow-x: hidden;
+    }
+
+    /* ── ANIMATED BACKGROUND ── */
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(26,106,184,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 85% 80%, rgba(26,46,74,0.9) 0%, transparent 70%),
+        linear-gradient(160deg, #0a1520 0%, #0f1e30 40%, #0d2240 100%);
+    }
+
+    /* Subtle animated grid lines */
+    .bg::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+      opacity: 0.5;
+    }
+
+    /* Floating orbs */
+    .bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle 300px at 70% 20%, rgba(42,126,200,0.12) 0%, transparent 70%),
+        radial-gradient(circle 200px at 15% 75%, rgba(232,184,75,0.07) 0%, transparent 70%);
+      animation: orbPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes gridShift {
+      from { background-position: 0 0, 0 0; }
+      to   { background-position: 60px 60px, 60px 60px; }
+    }
+
+    @keyframes orbPulse {
+      from { opacity: 0.6; transform: scale(1); }
+      to   { opacity: 1;   transform: scale(1.08); }
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    /* ── LOGO AREA ── */
+    .logo-wrap {
+      margin-bottom: 48px;
+      animation: fadeDown 0.9s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .logo-img {
+      width: 340px; max-width: 90vw;
+      filter: drop-shadow(0 8px 40px rgba(42,126,200,0.35));
+      /* Invert the light bg of the PNG to blend with dark page */
+      /* We'll use a CSS trick: mix the white bg away */
+      border-radius: 12px;
+      background: transparent;
+    }
+
+    /* Since the logo has a white/light bg, we wrap it in a rounded card */
+    .logo-card {
+      display: inline-block;
+      background: linear-gradient(135deg, #eef4fb 0%, #deeaf5 100%);
+      border-radius: 16px;
+      padding: 28px 40px;
+      box-shadow:
+        0 0 0 1px rgba(42,126,200,0.25),
+        0 20px 60px rgba(10,21,32,0.6),
+        0 2px 8px rgba(42,126,200,0.2);
+    }
+
+    /* ── COMING SOON BADGE ── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(232,184,75,0.12);
+      border: 1px solid rgba(232,184,75,0.35);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      animation: fadeDown 0.9s 0.15s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: blink 1.8s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* ── HEADLINE ── */
+    .headline {
+      font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      font-size: clamp(42px, 8vw, 82px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 20px;
+      animation: fadeDown 0.9s 0.25s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .headline em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--blue-light), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── SUBHEADING ── */
+    .sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      font-weight: 400;
+      color: var(--grey);
+      max-width: 520px;
+      line-height: 1.65;
+      margin-bottom: 52px;
+      animation: fadeDown 0.9s 0.35s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .sub strong {
+      color: rgba(244,248,252,0.75);
+      font-weight: 600;
+    }
+
+    /* ── FEATURE PILLS ── */
+    .features {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 12px;
+      margin-bottom: 56px;
+      animation: fadeDown 0.9s 0.45s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .feature {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(26,46,74,0.7);
+      border: 1px solid rgba(42,126,200,0.22);
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(244,248,252,0.8);
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .feature:hover {
+      border-color: rgba(42,126,200,0.5);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      font-size: 17px;
+    }
+
+    /* ── EMAIL CAPTURE ── */
+    .notify-form {
+      display: flex; gap: 0;
+      max-width: 460px; width: 100%;
+      margin-bottom: 20px;
+      animation: fadeDown 0.9s 0.55s cubic-bezier(0.22,1,0.36,1) both;
+      box-shadow: 0 8px 40px rgba(10,21,32,0.5);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .notify-input {
+      flex: 1;
+      background: rgba(26,46,74,0.8);
+      border: 1.5px solid rgba(42,126,200,0.3);
+      border-right: none;
+      border-radius: 8px 0 0 8px;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-family: 'Lora', serif;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .notify-input:focus {
+      border-color: rgba(42,126,200,0.7);
+    }
+
+    .notify-input::placeholder {
+      color: rgba(107,128,153,0.8);
+    }
+
+    .notify-btn {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%);
+      border: none;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 24px;
+      font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      transition: filter 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .notify-btn:hover  { filter: brightness(1.12); }
+    .notify-btn:active { transform: scale(0.98); }
+
+    .notify-note {
+      font-size: 12px;
+      color: rgba(107,128,153,0.7);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.05em;
+      margin-bottom: 56px;
+      animation: fadeDown 0.9s 0.6s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      margin: 0 auto 40px;
+      animation: fadeDown 0.9s 0.65s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    /* ── TAGLINE STRIP ── */
+    .tagline-strip {
+      display: flex; align-items: center; gap: 24px;
+      animation: fadeDown 0.9s 0.7s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .tagline-item {
+      font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(107,128,153,0.7);
+    }
+
+    .tagline-sep {
+      width: 4px; height: 4px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    /* ── STARS DECORATION ── */
+    .stars-deco {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 3px; height: 3px;
+      background: var(--gold);
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle var(--dur) var(--delay) ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50%       { opacity: var(--bright); transform: scale(1.2); }
+    }
+
+    /* ── SHARED ANIMATION ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .notify-form { flex-direction: column; border-radius: 8px; overflow: visible; }
+      .notify-input { border-right: 1.5px solid rgba(42,126,200,0.3); border-bottom: none; border-radius: 8px 8px 0 0; }
+      .notify-btn   { border-radius: 0 0 8px 8px; padding: 13px; }
+      .tagline-strip { flex-direction: column; gap: 10px; }
+      .tagline-sep   { display: none; }
+      .logo-card     { padding: 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated background -->
+  <div class="bg"></div>
+
+  <!-- Twinkling star particles (injected by JS) -->
+  <div class="stars-deco" id="stars"></div>
+
+  <main class="page">
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <div class="logo-card">
+        <img src="1773564501839_image.png" alt="5best2buy — Top Reviews. Smart Decisions." class="logo-img" />
+      </div>
+    </div>
+
+    <!-- Coming Soon Badge -->
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Coming Soon
+    </div>
+
+    <!-- Headline -->
+    <h1 class="headline">
+      The smartest way to<br>
+      <em>find what to buy.</em>
+    </h1>
+
+    <!-- Subheading -->
+    <p class="sub">
+      Expert-analyzed top-5 lists across every category —
+      <strong>real ratings, real prices, honest field assessments.</strong>
+      No fluff. No pressure. Just the five best options, ranked.
+    </p>
+
+    <!-- Feature pills -->
+    <div class="features">
+      <div class="feature"><span class="feature-icon">🏆</span> Top 5 Per Category</div>
+      <div class="feature"><span class="feature-icon">⭐</span> Weighted Sentiment Scores</div>
+      <div class="feature"><span class="feature-icon">🔍</span> Live Product Research</div>
+      <div class="feature"><span class="feature-icon">💡</span> Expert-Toned Analysis</div>
+      <div class="feature"><span class="feature-icon">💰</span> Best Value, Ranked</div>
+    </div>
+
+    <!-- Email capture -->
+    <div class="notify-form" id="notifyForm">
+      <input type="email" class="notify-input" id="emailInput" placeholder="your@email.com" />
+      <button class="notify-btn" onclick="handleNotify()">Notify Me</button>
+    </div>
+    <div class="notify-note" id="notifyNote">No spam. Just a heads-up when we launch.</div>
+
+    <div class="divider"></div>
+
+    <!-- Tagline strip -->
+    <div class="tagline-strip">
+      <span class="tagline-item">Top Reviews</span>
+      <span class="tagline-sep"></span>
+      <span class="tagline-item">Smart Decisions</span>
+      <span class="tagline-sep"></span>
+      <span class="tagline-item">5best2buy.com</span>
+    </div>
+
+  </main>
+
+  <script>
+    // ── Scatter twinkling gold dots across the bg ──
+    (function() {
+      var container = document.getElementById('stars');
+      var count = 28;
+      for (var i = 0; i < count; i++) {
+        var s = document.createElement('div');
+        s.className = 'star';
+        s.style.cssText = [
+          'left:'   + Math.random() * 100 + '%;',
+          'top:'    + Math.random() * 100 + '%;',
+          '--dur:'  + (3 + Math.random() * 5) + 's;',
+          '--delay:'+ (Math.random() * 6)     + 's;',
+          '--bright:'+ (0.15 + Math.random() * 0.5) + ';',
+          'width:'  + (2 + Math.random() * 3) + 'px;',
+          'height:' + (2 + Math.random() * 3) + 'px;',
+        ].join('');
+        container.appendChild(s);
+      }
+    })();
+
+    // ── Email notify handler ──
+    function handleNotify() {
+      var input = document.getElementById('emailInput');
+      var note  = document.getElementById('notifyNote');
+      var form  = document.getElementById('notifyForm');
+      var val   = input.value.trim();
+
+      if (!val || !val.includes('@') || !val.includes('.')) {
+        input.style.borderColor = 'rgba(232,75,75,0.6)';
+        input.placeholder = 'Enter a valid email...';
+        return;
+      }
+
+      // Success state
+      form.innerHTML =
+        '<div style="width:100%;padding:14px 20px;background:rgba(42,126,200,0.15);border:1.5px solid rgba(42,126,200,0.4);border-radius:8px;font-family:Barlow Condensed,sans-serif;font-size:16px;font-weight:600;letter-spacing:0.08em;color:#4aa3e8;">✓ &nbsp;You\'re on the list — we\'ll be in touch!</div>';
+      note.style.color = 'rgba(74,163,232,0.7)';
+      note.textContent = 'Talk soon.';
+    }
+
+    // Allow Enter key on input
+    document.getElementById('emailInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleNotify();
+    });
+  </script>
+
+</body>
+</html>
